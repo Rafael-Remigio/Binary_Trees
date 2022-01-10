@@ -53,7 +53,7 @@ tree_node_t;
 //
 
 // tree insertion routine                               /*qual arvore*/
-  void tree_insert(tree_node_t *node,int main_idx){
+  void tree_insert(tree_node_t *node){
 
     switch(main_idx){
       

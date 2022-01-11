@@ -53,20 +53,35 @@ tree_node_t;
 //
 
 // tree insertion routine                               /*qual arvore*/
-  void tree_insert(tree_node_t *node){
+  void tree_insert(tree_node_t *(*link)[3], tree_node_t *new_node, int main_idx){
 
     switch(main_idx){
       
       case 0:
-        printf("Putting Name| Person- name: %s, zip: %s, phone: %s \n \n", node->name, node->zip_code, node->telephone_number);
+        if(*link == NULL)
+          link = &new_node;
+        else if(new_node->name <= (*link)->name)
+          tree_insert(&((*link)->left), &(new_node),0);
+        else
+          tree_insert(&((*link)->right), &(new_node),0);
       break;
 
       case 1:
-        printf("Putting zip| Person- name: %s, zip: %s, phone: %s \n \n", node->name, node->zip_code, node->telephone_number);
+        if(*link == NULL)
+          *link = &new_node;
+        else if(new_node->zip_code <= (*link)->zip_code)
+          tree_insert(&((*link)->left), &(new_node),1);
+        else
+          tree_insert(&((*link)->right), &(new_node),1);
       break;
 
       case 2:
-        printf("Putting phone| Person- name: %s, zip: %s, phone: %s \n \n", node->name, node->zip_code, node->telephone_number);
+        if(*link == NULL)
+          *link = &new_node;
+        else if(new_node->telephone_number <= (*link)->telephone_number)
+          tree_insert(&((*link)->left), &(new_node),2);
+        else
+          tree_insert(&((*link)->right), &(new_node),2);
       break;
     }
    
@@ -151,7 +166,7 @@ tree_node_t;
 
       for(int i = 0;i < n_persons;i++)
         for(int main_index = 0;main_index < 3;main_index++)
-          tree_insert(&(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+          tree_insert(&(roots[main_index]), &(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
       dt = cpu_time() - dt;
       printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
     //

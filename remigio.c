@@ -63,17 +63,19 @@ void tree_insert( tree_node_t* root[3], tree_node_t *node,int main_idx)
   if (main_idx == 0)
   {
     if (root[main_idx]== NULL){
-      root[main_idx] == node;
+      root[main_idx] = &node;
       return;
     }
     int c = compare_tree_nodes( root[main_idx],node,main_idx);
     if (c > 0)
     {
-
+      tree_insert(root[main_idx]->right, node,main_idx);
+      return;
     }
     else if (c<0)
     {
-
+      tree_insert(root[main_idx]->left, node,main_idx);
+      return;
     }
     else
     {

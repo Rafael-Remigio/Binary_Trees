@@ -1,0 +1,5 @@
+Stuff the teacher said with give us a better grade
+    tree depth
+    how many nodes in each level
+    histograma para ver quantos nos estão em cada nivel
+    estudo estatisco da profundidade da arvore

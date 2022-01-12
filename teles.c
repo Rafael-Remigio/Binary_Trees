@@ -58,30 +58,33 @@ tree_node_t;
     switch(main_idx){
       
       case 0:
+        
         if(*link[0] == NULL)
           *link[0] = new_node;
-        else if(new_node->name <= (*link[0])->name)
-          tree_insert(&((*link[0])->left), &(new_node),0);
+        else if(1)
+          tree_insert(&((*link[0])->left), (new_node),0);
         else
-          tree_insert(&((*link[0])->right), &(new_node),0);
+          tree_insert(&((*link[0])->right), (new_node),0);
+          
       break;
 
       case 1:
+      
         if(*link[1] == NULL)
-          *link[1] = &new_node;
-        else if(new_node->zip_code <= (*link[1])->zip_code)
-          tree_insert(&((*link[1])->left), &(new_node),1);
+          *link[1] = new_node;
+        else if(1)
+          tree_insert(&((*link[1])->left), (new_node),1);
         else
-          tree_insert(&((*link[1])->right), &(new_node),1);
+          tree_insert(&((*link[1])->right), (new_node),1);
       break;
 
       case 2:
         if(*link[2] == NULL)
-          *link[2] = &new_node;
-        else if(new_node->telephone_number <= (*link[2])->telephone_number)
-          tree_insert(&((*link[2])->left), &(new_node),2);
+          *link[2] = new_node;
+        else if(1)
+          tree_insert(&((*link[2])->left), (new_node),2);
         else
-          tree_insert(&((*link[2])->right), &(new_node),2);
+          tree_insert(&((*link[2])->right), (new_node),2);
       break;
     }
    
@@ -101,15 +104,26 @@ tree_node_t;
   int tree_depth(tree_node_t *node1,int main_idx){
     return NULL;
   }
-//
+//*/
+
+void visit(tree_node_t *n)
+{
+  printf("nome: %s, zip: %s, phone: %s \n",n->name, n->zip_code, n->telephone_number);
+}
+
 
 // list, i,e, traverse the tree                  
-  int list(tree_node_t *node1,int main_idx){
-    return NULL;
+  int list(tree_node_t *link, int main_idx){
+    if(link != NULL){
+      list(link->left[main_idx], main_idx);
+      visit(link);
+      list(link->right[main_idx], main_idx);
+    }
+
   }
 //
 
-*/
+
  
 // main program
   int main(int argc,char **argv){
@@ -138,7 +152,7 @@ tree_node_t;
         return 1;
       }
     //
-
+ 
     // generate all data
       tree_node_t *persons = (tree_node_t *)calloc((size_t)n_persons,sizeof(tree_node_t));
       if(persons == NULL)
@@ -163,10 +177,9 @@ tree_node_t;
       tree_node_t *roots[3]; // three indices, three roots
       for(int main_index = 0;main_index < 3;main_index++)
         roots[main_index] = NULL;
-
       for(int i = 0;i < n_persons;i++)
         for(int main_index = 0;main_index < 3;main_index++)
-          tree_insert(&(roots[main_index]), &(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+          tree_insert(&(roots), &(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
       dt = cpu_time() - dt;
       printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
     //
@@ -199,7 +212,7 @@ tree_node_t;
         dt = cpu_time() - dt;
         printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
       }
-    //
+    //*/
 
     // process the command line optional arguments
       for(int i = 3;i < argc;i++)
@@ -212,14 +225,14 @@ tree_node_t;
           if(main_index > 2)
             main_index = 2;
           printf("List of persons:\n");
-          (void)list( ... ); // place your code here to traverse, in order, the tree with number main_index
+          (void)list(roots[i], i); // place your code here to traverse, in order, the tree with number main_index
         }
         // place your own options here
       }
     //
 
 
-    */
+    
 
 
     // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks

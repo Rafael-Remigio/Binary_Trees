@@ -1,1 +1,5 @@
 Extra: pesquisar quantas pessoas têm dado nome (nº de joses) nesta procura sabemoss sempre qual lado da arvore ir.
+
+
+
+c = compare_tree_nodes(new_node, *link[0], 0);

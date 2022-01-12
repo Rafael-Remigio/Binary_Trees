@@ -18,3 +18,10 @@ multi_ordered_tree:		multi_ordered_tree.c $(AUX_C_FILES) $(AUX_H_FILES)
 
 solution_multi_ordered_tree:	solution_multi_ordered_tree.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 solution_multi_ordered_tree.c $(AUX_C_FILES) -o solution_multi_ordered_tree
+
+remigio:	remigio.c $(AUX_C_FILES) $(AUX_H_FILES)
+	cc -Wall -O2 remigio.c $(AUX_C_FILES) -o remigio
+
+teles: teles.c $(AUX_C_FILES) $(AUX_H_FILES)
+	cc -Wall -O2 teles.c $(AUX_C_FILES) -o teles
+

@@ -58,8 +58,37 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 // tree insertion routine (place your code here)
 //
 
-void tree_insert( ... )
+void tree_insert( tree_node_t* root[3], tree_node_t *node,int main_idx)
 {
+  if (main_idx == 0)
+  {
+    if (root[main_idx]== NULL){
+      root[main_idx] == node;
+      return;
+    }
+    int c = compare_tree_nodes( root[main_idx],node,main_idx);
+    if (c > 0)
+    {
+
+    }
+    else if (c<0)
+    {
+
+    }
+    else
+    {
+
+    }
+  }
+  else if(main_idx == 1)
+  {
+
+  }
+  else
+  {
+
+  }
+
 }
 
 

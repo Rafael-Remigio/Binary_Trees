@@ -58,30 +58,30 @@ tree_node_t;
     switch(main_idx){
       
       case 0:
-        if(*link == NULL)
-          link = &new_node;
-        else if(new_node->name <= (*link)->name)
-          tree_insert(&((*link)->left), &(new_node),0);
+        if(*link[0] == NULL)
+          *link[0] = new_node;
+        else if(new_node->name <= (*link[0])->name)
+          tree_insert(&((*link[0])->left), &(new_node),0);
         else
-          tree_insert(&((*link)->right), &(new_node),0);
+          tree_insert(&((*link[0])->right), &(new_node),0);
       break;
 
       case 1:
-        if(*link == NULL)
-          *link = &new_node;
-        else if(new_node->zip_code <= (*link)->zip_code)
-          tree_insert(&((*link)->left), &(new_node),1);
+        if(*link[1] == NULL)
+          *link[1] = &new_node;
+        else if(new_node->zip_code <= (*link[1])->zip_code)
+          tree_insert(&((*link[1])->left), &(new_node),1);
         else
-          tree_insert(&((*link)->right), &(new_node),1);
+          tree_insert(&((*link[1])->right), &(new_node),1);
       break;
 
       case 2:
-        if(*link == NULL)
-          *link = &new_node;
-        else if(new_node->telephone_number <= (*link)->telephone_number)
-          tree_insert(&((*link)->left), &(new_node),2);
+        if(*link[2] == NULL)
+          *link[2] = &new_node;
+        else if(new_node->telephone_number <= (*link[2])->telephone_number)
+          tree_insert(&((*link[2])->left), &(new_node),2);
         else
-          tree_insert(&((*link)->right), &(new_node),2);
+          tree_insert(&((*link[2])->right), &(new_node),2);
       break;
     }
    

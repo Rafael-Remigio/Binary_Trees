@@ -107,10 +107,23 @@ tree_node_t* find(tree_node_t** rootp,int main_idx,tree_node_t* person)
 // tree depdth
 //
 
-/* int tree_depth( ... )
+int tree_depth(tree_node_t** root, int main_idx)
 {
+  if ( *root == NULL){
+    return 0;
+  }
+  int leftheight = tree_depth(&((*root)->left[main_idx]),main_idx);
+  int rightheight = tree_depth(&((*root)->right[main_idx]),main_idx);
+
+  if (leftheight > rightheight) 
+  {
+    return leftheight + 1;
+  }
+  else{
+    return rightheight + 1 ;
+  }
 }
- */
+
 
 //
 // list, i,e, traverse the tree (place your code here)
@@ -134,12 +147,13 @@ int list(tree_node_t* node,int main_idx)
   if (node !=NULL){
     printf("name ---> %s\n", node->name);
     printf("zipcode ---> %s\n", node->zip_code);
+    printf("phone number ---> %s\n", node->telephone_number);
     if (node->left[main_idx] != NULL){
-      printf("going left");
+      printf("going left\n");
       list(node->left[main_idx],main_idx);
     }
     if (node->right[main_idx] != NULL){
-      printf("going right");
+      printf("going right\n");
       list(node->right[main_idx],main_idx);
     }
 
@@ -245,13 +259,8 @@ int main(int argc,char **argv)
     // place your own options here
   } */
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
-  list(roots[0],0); 
-  printf("\nyoooo\n");
-    list(roots[1],1); 
-
-  tree_node_t *new_person = find(&roots[0],0,&persons[2]);  
-  printf("\nthe nomem of homie is  = %s\n", new_person->name);
-  printf("the nomem of homie is  = %s\n", persons[2].name);
+  printf("yooo %d\n",tree_depth(&roots[2],2));
+  list(roots[2],2);
   free(persons);
 
   return 0;

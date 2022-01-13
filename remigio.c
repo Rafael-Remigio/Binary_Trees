@@ -69,7 +69,7 @@ void tree_insert( tree_node_t** rootp, tree_node_t* node,int main_idx)
     return;
   }
   int c = compare_tree_nodes(*rootp,node,main_idx);
-  if (c > 0)
+  if (c < 0)
   {
     printf("here 2 \n");
     tree_insert(&((*rootp)->right[main_idx]), node,main_idx);
@@ -109,10 +109,35 @@ void tree_insert( tree_node_t** rootp, tree_node_t* node,int main_idx)
 // list, i,e, traverse the tree (place your code here)
 //
 
-int list()
+int list(tree_node_t* node,int main_idx)
 {
+  switch (main_idx)
+  {
+  case 0:
+    printf("Tree ordered by name\n");
+    break;
+    case 1:
+    printf("Tree ordered by siz code\n");
+    break;
+    case 2:
+    printf("Tree ordered by phone number\n");
+    break;
 
+  }
+  if (node !=NULL){
+    printf("name ---> %s\n", node->name);
+    printf("zipcode ---> %s\n", node->zip_code);
+    if (node->left[main_idx] != NULL){
+      printf("going left");
+      list(node->left[main_idx],main_idx);
+    }
+    if (node->right[main_idx] != NULL){
+      printf("going right");
+      list(node->right[main_idx],main_idx);
+    }
 
+  }
+  return 1;
 
 } 
 
@@ -213,6 +238,9 @@ int main(int argc,char **argv)
     // place your own options here
   } */
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
+  list(roots[0],0); 
+  printf("\nyoooo\n");
+    list(roots[1],1); 
   free(persons);
   return 0;
 }

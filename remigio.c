@@ -60,26 +60,19 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 
 void tree_insert( tree_node_t** rootp, tree_node_t* node,int main_idx)
 {
-  printf("node name = %s and main_idx = %d \n",(node)->name,main_idx);
-
-      
   if ( *rootp == NULL){
     *rootp = node;
-    printf("here 1 \n");
     return;
   }
   int c = compare_tree_nodes(*rootp,node,main_idx);
   if (c < 0)
   {
-    printf("here 2 \n");
     tree_insert(&((*rootp)->right[main_idx]), node,main_idx);
-    
     return;
   }
   else
   {
     tree_insert(&((*rootp)->left[main_idx]), node,main_idx);
-    printf("here 3\n");
     return;
   }
   return;
@@ -91,10 +84,24 @@ void tree_insert( tree_node_t** rootp, tree_node_t* node,int main_idx)
 // tree search routine (place your code here)
 //
 
-/* tree_node_t *find( ... )
+tree_node_t* find(tree_node_t** rootp,int main_idx,tree_node_t* person)
 {
+  if (compare_tree_nodes(*rootp,person,main_idx)==0)
+  {
+    printf("found it");
+    return *rootp;
+  }
+  else if (compare_tree_nodes(*rootp,person,main_idx) > 0)
+  {
+    return find(&((*rootp)->left[main_idx]),main_idx,person);
+  }
+  else
+  {
+    return find(&((*rootp)->right[main_idx]),main_idx,person);
+  }
+  return NULL;
 }
- */
+
 
 //
 // tree depdth
@@ -241,6 +248,11 @@ int main(int argc,char **argv)
   list(roots[0],0); 
   printf("\nyoooo\n");
     list(roots[1],1); 
+
+  tree_node_t *new_person = find(&roots[0],0,&persons[2]);  
+  printf("\nthe nomem of homie is  = %s\n", new_person->name);
+  printf("the nomem of homie is  = %s\n", persons[2].name);
   free(persons);
+
   return 0;
 }

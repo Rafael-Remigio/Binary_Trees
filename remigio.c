@@ -37,17 +37,17 @@ tree_node_t;
 int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 {
   int i,c;
-
-  for(i = 0;i < 3;i++)
-  {
-    if(main_idx == 0)
+                                                                              // almost impossible to have 2 
+  for(i = 0;i < 3;i++)                                                        // if one of the comparision parameters  
+  {                                                                           // are the same node will be compared with
+    if(main_idx == 0)                                                         // the other main index
       c = strcmp(node1->name,node2->name);
     else if(main_idx == 1)
-      c = strcmp(node1->zip_code,node2->zip_code);
+      c = strcmp(node1->zip_code,node2->zip_code);                             // so it will always return an integer - or +
     else
       c = strcmp(node1->telephone_number,node2->telephone_number);
-    if(c != 0)
-      return c; // different on this index, so return
+    if(c != 0)                                                            
+      return c; // different on this index, so return 
     main_idx = (main_idx == 2) ? 0 : main_idx + 1; // advance to the next index
   }
   return 0;
@@ -58,45 +58,31 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 // tree insertion routine (place your code here)
 //
 
-void tree_insert( tree_node_t* root, tree_node_t* node,int main_idx)
+void tree_insert( tree_node_t** rootp, tree_node_t* node,int main_idx)
 {
-  printf("node name = %s \n ",node->name);
-  if (main_idx == 0)
-  {
+  printf("node name = %s and main_idx = %d \n",(node)->name,main_idx);
+
       
-    if ( root == NULL){
-      root = node;
-      printf("here 1 \n");
-      printf("%d",root);
-      return;
-    }
-    printf("%d",root);
-    int c = compare_tree_nodes(root,node,main_idx);
-    if (c > 0)
-    {
-      tree_insert(&(root->right), node,main_idx);
-      printf("here 2 \n");
-      return;
-    }
-    else if (c<0)
-    {
-      tree_insert(&(root->left), node,main_idx);
-      printf("here 3\n");
-      return;
-    }
-    else
-    {
-
-    }
+  if ( *rootp == NULL){
+    *rootp = node;
+    printf("here 1 \n");
+    return;
   }
-  else if(main_idx == 1)
+  int c = compare_tree_nodes(*rootp,node,main_idx);
+  if (c > 0)
   {
-
+    printf("here 2 \n");
+    tree_insert(&((*rootp)->right[main_idx]), node,main_idx);
+    
+    return;
   }
   else
   {
-
+    tree_insert(&((*rootp)->left[main_idx]), node,main_idx);
+    printf("here 3\n");
+    return;
   }
+  return;
 
 }
 
@@ -123,9 +109,12 @@ void tree_insert( tree_node_t* root, tree_node_t* node,int main_idx)
 // list, i,e, traverse the tree (place your code here)
 //
 
-/* int list( ... )
+int list()
 {
-} */
+
+
+
+} 
 
 
 //
@@ -180,7 +169,7 @@ int main(int argc,char **argv)
     roots[main_index] = NULL;
   for(int i = 0;i < n_persons;i++)
     for(int main_index = 0;main_index < 3;main_index++)
-     { tree_insert(roots[main_index],&persons[i],main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+     { tree_insert(&roots[main_index],&persons[i],main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
      } 
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);

@@ -260,7 +260,6 @@ int main(int argc,char **argv)
   } */
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
   printf("yooo %d\n",tree_depth(&roots[2],2));
-  list(roots[2],2);
   free(persons);
 
   return 0;

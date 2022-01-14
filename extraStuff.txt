@@ -1,5 +1,15 @@
 Stuff the teacher said with give us a better grade
     tree depth
+    how many nodes
     how many nodes in each level
+    how many leaf nodes
+    histograma para ver quantos nos estão em cada nivel
+    estudo estatisco da profundidade da arvore
+
+what i need to do
+    breath traversal and depth from breath traversal
+    how many nodes
+    how many nodes in each level
+    how many leaf nodes
     histograma para ver quantos nos estão em cada nivel
     estudo estatisco da profundidade da arvore

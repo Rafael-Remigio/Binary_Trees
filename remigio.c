@@ -88,7 +88,6 @@ tree_node_t* find(tree_node_t** rootp,int main_idx,tree_node_t* person)
 {
   if (compare_tree_nodes(*rootp,person,main_idx)==0)
   {
-    printf("found it");
     return *rootp;
   }
   else if (compare_tree_nodes(*rootp,person,main_idx) > 0)
@@ -240,13 +239,13 @@ int main(int argc,char **argv)
   dt = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
   // search the tree
-/*   for(int main_index = 0;main_index < 3;main_index++)
+for(int main_index = 0;main_index < 3;main_index++)
   {
     dt = cpu_time();
     for(int i = 0;i < n_persons;i++)
     {
       tree_node_t n = persons[i]; // make a copy of the node data
-      if(find( ... ) != &(persons[i])) // place your code here to find a given person, searching for it using the tree with number main_index
+      if(find(&roots[main_index],main_index,&n) != &(persons[i])) // place your code here to find a given person, searching for it using the tree with number main_index
       {
         fprintf(stderr,"person %d not found using index %d\n",i,main_index);
         return 1;
@@ -254,15 +253,15 @@ int main(int argc,char **argv)
     }
     dt = cpu_time() - dt;
     printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
-  } */
+  } 
   // compute the largest tree depdth
- /*  for(int main_index = 0;main_index < 3;main_index++)
+  for(int main_index = 0;main_index < 3;main_index++)
   {
     dt = cpu_time();
-    int depth = tree_depth( ... ); // place your code here to compute the depth of the tree with number main_index
+    int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
     dt = cpu_time() - dt;
     printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-  } */
+  } 
   // process the command line optional arguments
  /*  for(int i = 3;i < argc;i++)
   {
@@ -279,9 +278,13 @@ int main(int argc,char **argv)
     // place your own options here
   } */
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
-  printf("yooo %d\n",tree_depth(&roots[2],2));
-  list(roots[2],2);
-  node_depth(&roots[2],2,&persons[2],0,0);
+
+
+/*   printf("yooo %d\n",tree_depth(&roots[2],2));
+  list(roots[2],2);                                             my tests
+  node_depth(&roots[2],2,&persons[2],0,0); */
+
+
   free(persons);
 
   return 0;

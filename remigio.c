@@ -128,32 +128,28 @@ int tree_depth(tree_node_t** root, int main_idx)
 //
 // list, i,e, traverse the tree (place your code here)
 //
+void visit_node(tree_node_t* node)
+{
+  printf("----------------------\n");
+  printf("----------------------\n");
+  printf("Name ----------------- %s\n",node->name);
+  printf("ZipCode ----------------- %s\n",node->zip_code);
+  printf("Telephone Number ----------------- %s\n",node->telephone_number);
+
+  return;
+}
 
 int list(tree_node_t* node,int main_idx)
 {
-  switch (main_idx)
-  {
-  case 0:
-    printf("Tree ordered by name\n");
-    break;
-    case 1:
-    printf("Tree ordered by siz code\n");
-    break;
-    case 2:
-    printf("Tree ordered by phone number\n");
-    break;
 
-  }
   if (node !=NULL){
-    printf("name ---> %s\n", node->name);
-    printf("zipcode ---> %s\n", node->zip_code);
-    printf("phone number ---> %s\n", node->telephone_number);
+    visit_node(node);
     if (node->left[main_idx] != NULL){
-      printf("going left\n");
+
       list(node->left[main_idx],main_idx);
     }
     if (node->right[main_idx] != NULL){
-      printf("going right\n");
+
       list(node->right[main_idx],main_idx);
     }
 
@@ -161,6 +157,30 @@ int list(tree_node_t* node,int main_idx)
   return 1;
 
 } 
+
+
+//
+// Find depth of node
+//
+
+tree_node_t* node_depth(tree_node_t** rootp,int main_idx,tree_node_t* person,int rights, int lefts)
+{
+  if (compare_tree_nodes(*rootp,person,main_idx)==0)
+  {
+    printf("found it\n");
+    printf("the position is at %d rigths and %d lefts, and has depth %d",rights,lefts,rights + lefts);
+    return *rootp;
+  }
+  else if (compare_tree_nodes(*rootp,person,main_idx) > 0)
+  {
+    return node_depth(&((*rootp)->left[main_idx]),main_idx,person,rights,lefts+1);
+  }
+  else
+  {
+    return node_depth(&((*rootp)->right[main_idx]),main_idx,person,rights +1,lefts);
+  }
+  return NULL;
+}
 
 
 //
@@ -260,6 +280,8 @@ int main(int argc,char **argv)
   } */
   // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
   printf("yooo %d\n",tree_depth(&roots[2],2));
+  list(roots[2],2);
+  node_depth(&roots[2],2,&persons[2],0,0);
   free(persons);
 
   return 0;

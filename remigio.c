@@ -144,7 +144,6 @@ int list(tree_node_t* node,int main_idx)
   if (node !=NULL){
     visit_node(node);
     if (node->left[main_idx] != NULL){
-
       list(node->left[main_idx],main_idx);
     }
     if (node->right[main_idx] != NULL){
@@ -181,6 +180,38 @@ tree_node_t* node_depth(tree_node_t** rootp,int main_idx,tree_node_t* person,int
   return NULL;
 }
 
+//
+//  how many nodes
+//
+
+int numberNodes(tree_node_t** root, int main_idx)
+{
+  if ( *root == NULL){
+    return 0;
+  }
+  int leftnodes= numberNodes(&((*root)->left[main_idx]),main_idx);
+  int rightnodes = numberNodes(&((*root)->right[main_idx]),main_idx);
+
+    return rightnodes + leftnodes+ 1 ;
+}
+
+//
+//  how many leaf nodes
+//
+int leafCount(tree_node_t** rootp,int main_idx)
+{
+  if ( *rootp == NULL){
+    return 0;
+  }
+  if ((*rootp)->left[main_idx] == NULL && (*rootp)->right[main_idx] == NULL)
+  {
+    return 1;
+  }
+  else 
+  {
+    return leafCount(&(*rootp)->left[main_idx],main_idx) + leafCount(&(*rootp)->right[main_idx],main_idx);
+  }
+}
 
 //
 // main program
@@ -284,7 +315,10 @@ for(int main_index = 0;main_index < 3;main_index++)
   list(roots[2],2);                                             my tests
   node_depth(&roots[2],2,&persons[2],0,0); */
 
-
+  list(roots[2],2);
+  printf("how many nodes is ---> %d\n", numberNodes(&roots[2],2));
+  node_depth(&roots[2],2,&persons[2],0,0);
+  printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
   free(persons);
 
   return 0;

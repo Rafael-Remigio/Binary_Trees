@@ -1,6 +1,6 @@
 Stuff the teacher said with give us a better grade
-    tree depth
-    how many nodes
+done    tree depth
+done    how many nodes
     how many nodes in each level
     how many leaf nodes
     histograma para ver quantos nos estão em cada nivel
@@ -8,7 +8,7 @@ Stuff the teacher said with give us a better grade
 
 what i need to do
     breath traversal and depth from breath traversal
-    how many nodes
+done    how many nodes 
     how many nodes in each level
     how many leaf nodes
     histograma para ver quantos nos estão em cada nivel

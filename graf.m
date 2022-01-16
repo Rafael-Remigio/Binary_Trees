@@ -1,0 +1,81 @@
+clear;
+close all;
+clc;
+
+A_1 = load("0_creation.txt");
+A_2 = load("0_Search.txt");
+A_3 = load("1_creation.txt");
+A_4 = load("1_Search.txt");
+A_5 = load("2_creation.txt");
+A_6 = load("2_Search.txt");
+ 
+ 
+
+
+ %se coluda 2==1  %coluna
+n_V1_1 = A_1(:, 1);
+f_V1_1 = A_1(:, 2); 
+
+n_V1_2 = A_2(:, 1);
+f_V1_2 = A_2(:, 2); 
+
+n_V1_3 = A_3(:, 1);
+f_V1_3 = A_3(:, 2);
+
+n_V1_4 = A_4(:, 1);
+f_V1_4 = A_4(:, 2);
+
+n_V1_5 = A_5(:, 1);
+f_V1_5 = A_5(:, 2); 
+
+n_V1_6 = A_6(:, 1);
+f_V1_6 = A_6(:, 2); 
+
+     
+ 
+  
+
+grid on
+
+ 
+figure(1);    
+plot(n_V1_1, f_V1_1);  
+
+figure(2);   
+plot(n_V1_2, f_V1_2); 
+
+figure(3);     
+plot(n_V1_3, f_V1_3);  
+
+figure(4);     
+plot(n_V1_4, f_V1_4);
+
+figure(5);     
+plot(n_V1_5, f_V1_5); 
+ 
+figure(6);    
+plot(n_V1_6, f_V1_6); 
+
+ 
+figure(7);    
+histogram(f_V1_1);  
+
+figure(8);   
+histogram(f_V1_2); 
+
+figure(9);     
+histogram(f_V1_3);  
+
+figure(10);     
+histogram(f_V1_4);
+
+figure(11);     
+histogram(f_V1_5); 
+ 
+figure(12);    
+histogram(f_V1_6); 
+ 
+
+
+ 
+

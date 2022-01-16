@@ -28,7 +28,7 @@ typedef struct tree_node_s
   struct tree_node_s *left[3];                          // left pointers (one for each index) ---- left means smaller
   struct tree_node_s *right[3];                         // right pointers (one for each index) --- right means larger
 }
-tree_node_t;
+tree_node_t; 
 
 
 // the node comparison function (do not change this)
@@ -53,77 +53,162 @@ tree_node_t;
 //
 
 // tree insertion routine                               /*qual arvore*/
-  void tree_insert(tree_node_t *(*link)[3], tree_node_t *new_node, int main_idx){
-
-    switch(main_idx){
-      
-      case 0:
-        
-        if(*link[0] == NULL)
-          *link[0] = new_node;
-        else if(1)
-          tree_insert(&((*link[0])->left), (new_node),0);
-        else
-          tree_insert(&((*link[0])->right), (new_node),0);
-          
-      break;
-
-      case 1:
-      
-        if(*link[1] == NULL)
-          *link[1] = new_node;
-        else if(1)
-          tree_insert(&((*link[1])->left), (new_node),1);
-        else
-          tree_insert(&((*link[1])->right), (new_node),1);
-      break;
-
-      case 2:
-        if(*link[2] == NULL)
-          *link[2] = new_node;
-        else if(1)
-          tree_insert(&((*link[2])->left), (new_node),2);
-        else
-          tree_insert(&((*link[2])->right), (new_node),2);
-      break;
-    }
+  void tree_insert(tree_node_t **rootp, tree_node_t *node, int main_idx){
    
+    if (*rootp == NULL){
+      *rootp = node;
+      return;
+    }
 
+    int c = compare_tree_nodes(*rootp,node,main_idx);
+    if (c < 0){
+  
+      tree_insert(&((*rootp)->right[main_idx]), node,main_idx);
+      return;
+    }
+    else{
+  
+      tree_insert(&((*rootp)->left[main_idx]), node,main_idx);
+      return;
+    }
+    return; 
   }
 //
- 
-/*
 
 // tree search routine                                    
-  tree_node_t *find(tree_node_t *node1,int main_idx){
+  tree_node_t* find(tree_node_t** rootp,int main_idx,tree_node_t* person){
+
+    if (compare_tree_nodes(*rootp,person,main_idx)==0){
+    
+      return *rootp;
+    }
+    else if (compare_tree_nodes(*rootp,person,main_idx) > 0){
+    
+      return find(&((*rootp)->left[main_idx]),main_idx,person);
+    }
+    else{
+    
+      return find(&((*rootp)->right[main_idx]),main_idx,person);
+    }
     return NULL;
   }
 //
  
 // tree depdth                                          
-  int tree_depth(tree_node_t *node1,int main_idx){
-    return NULL;
-  }
-//*/
+  int tree_depth(tree_node_t** root, int main_idx){
 
-void visit(tree_node_t *n)
-{
-  printf("nome: %s, zip: %s, phone: %s \n",n->name, n->zip_code, n->telephone_number);
-}
+    if ( *root == NULL){
 
-
-// list, i,e, traverse the tree                  
-  int list(tree_node_t *link, int main_idx){
-    if(link != NULL){
-      list(link->left[main_idx], main_idx);
-      visit(link);
-      list(link->right[main_idx], main_idx);
+      return 0;
     }
+    int leftheight = tree_depth(&((*root)->left[main_idx]),main_idx);
+    int rightheight = tree_depth(&((*root)->right[main_idx]),main_idx);
 
+    if (leftheight > rightheight){
+    
+      return leftheight + 1;
+    }
+    else{
+
+      return rightheight + 1 ;
+    }
   }
 //
 
+// list, i,e, traverse the tree 
+  void visit_node(tree_node_t* node){
 
+    printf("----------------------\n");
+    printf("----------------------\n");
+    printf("Name ----------------- %s\n",node->name);
+    printf("ZipCode ----------------- %s\n",node->zip_code);
+    printf("Telephone Number ----------------- %s\n",node->telephone_number);
+
+    return;
+  }       
+
+  int list(tree_node_t* node,int main_idx){
+
+    if (node !=NULL){
+
+      visit_node(node);
+      if (node->left[main_idx] != NULL){
+
+        list(node->left[main_idx],main_idx);
+      }
+      if (node->right[main_idx] != NULL){
+
+        list(node->right[main_idx],main_idx);
+      }
+    }
+    return 1;
+  } 
+//
+
+// Find depth of node
+  tree_node_t* node_depth(tree_node_t** rootp,int main_idx,tree_node_t* person,int rights, int lefts){
+  
+    if (compare_tree_nodes(*rootp,person,main_idx)==0){
+    
+      printf("found it\n");
+      printf("the position is at %d rigths and %d lefts, and has depth %d",rights,lefts,rights + lefts);
+      return *rootp;
+    }
+    else if (compare_tree_nodes(*rootp,person,main_idx) > 0){
+    
+      return node_depth(&((*rootp)->left[main_idx]),main_idx,person,rights,lefts+1);
+    }
+    else{
+    
+      return node_depth(&((*rootp)->right[main_idx]),main_idx,person,rights +1,lefts);
+    }
+    return NULL;
+  }
+//
+
+//  how many nodes
+  int numberNodes(tree_node_t** root, int main_idx){
+  
+    if ( *root == NULL){
+      return 0;
+    }
+    int leftnodes= numberNodes(&((*root)->left[main_idx]),main_idx);
+    int rightnodes = numberNodes(&((*root)->right[main_idx]),main_idx);
+
+    return rightnodes + leftnodes+ 1 ;
+  }
+//
+ 
+//  how many nodes is each level
+  int deapthNodes(tree_node_t** rootp, int main_idx,int depth){
+  
+    if ( *rootp == NULL){
+      return 0;
+    }
+    if (depth == 0){
+      return 1;
+    }
+    return deapthNodes(&(*rootp)->left[main_idx],main_idx,depth-1) + deapthNodes(&(*rootp)->right[main_idx],main_idx,depth-1);
+  }
+//
+
+//  how many leaf nodes
+  int leafCount(tree_node_t** rootp,int main_idx){
+  
+    if ( *rootp == NULL){
+      return 0;
+    }
+
+    if ((*rootp)->left[main_idx] == NULL && (*rootp)->right[main_idx] == NULL){
+    
+      return 1;
+    }
+    else{
+    
+      return leafCount(&(*rootp)->left[main_idx],main_idx) + leafCount(&(*rootp)->right[main_idx],main_idx);
+    }
+  }
+//
  
 // main program
   int main(int argc,char **argv){
@@ -173,29 +258,62 @@ void visit(tree_node_t *n)
 
 
     // create the ordered binary trees
+
       dt = cpu_time();
       tree_node_t *roots[3]; // three indices, three roots
-      for(int main_index = 0;main_index < 3;main_index++)
+
+      for(int main_index = 0;main_index < 3;main_index++){
         roots[main_index] = NULL;
-      for(int i = 0;i < n_persons;i++)
-        for(int main_index = 0;main_index < 3;main_index++)
-          tree_insert(&(roots), &(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+      }
+
+      double tm;
+      for(int main_index = 0;main_index < 3;main_index++){
+        
+        FILE *f = NULL;
+        char str[16];
+        sprintf(str, "%d", main_index);
+        strcat(str,"_creation.txt");
+        f = fopen(str, "a");
+
+        tm = cpu_time();
+        for(int i = 0;i < n_persons;i++){
+          
+          tree_insert(&(roots[main_index]), &(persons[i]), main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+          
+          if((i+1) % 5000 == 0){
+            double tmf = cpu_time() - tm;
+            fprintf(f, "%d %f \n",i, tmf);
+          }
+        }
+      }
       dt = cpu_time() - dt;
       printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
     //
-    /*
+    
 
     // search the tree
-      for(int main_index = 0;main_index < 3;main_index++)
-      {
+      for(int main_index = 0;main_index < 3;main_index++){
+
+        FILE *f2 = NULL;
+        char str[20];
+        sprintf(str, "%d", main_index);
+        strcat(str,"_Search.txt"); 
+        f2 = fopen(str, "a");
+
         dt = cpu_time();
-        for(int i = 0;i < n_persons;i++)
-        {
+        for(int i = 0;i < n_persons;i++){
+        
           tree_node_t n = persons[i]; // make a copy of the node data
-          if(find( ... ) != &(persons[i])) // place your code here to find a given person, searching for it using the tree with number main_index
-          {
+          if(find(&roots[main_index],main_index,&n) != &(persons[i])){ // place your code here to find a given person, searching for it using the tree with number main_index
+          
             fprintf(stderr,"person %d not found using index %d\n",i,main_index);
             return 1;
+          }
+
+          if((i+1) % 5000 == 0){
+
+            double tmf = cpu_time() - dt;
+            fprintf(f2, "%d %f \n",i, tmf);
           }
         }
         dt = cpu_time() - dt;
@@ -203,37 +321,46 @@ void visit(tree_node_t *n)
       }
     //
 
+    
 
     // compute the largest tree depdth
       for(int main_index = 0;main_index < 3;main_index++)
       {
         dt = cpu_time();
-        int depth = tree_depth( ... ); // place your code here to compute the depth of the tree with number main_index
+        int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
         dt = cpu_time() - dt;
         printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
       }
-    //*/
-
+    //
+     
     // process the command line optional arguments
-      for(int i = 3;i < argc;i++)
-      {
-        if(strncmp(argv[i],"-list",5) == 0)
-        { // list all (optional)
-          int main_index = atoi(&(argv[i][5]));
-          if(main_index < 0)
-            main_index = 0;
-          if(main_index > 2)
-            main_index = 2;
-          printf("List of persons:\n");
-          (void)list(roots[i], i); // place your code here to traverse, in order, the tree with number main_index
-        }
-        // place your own options here
+       
+     
+      if(strcmp(argv[3],"-list0") == 0){   
+        printf("List of persons:\n");
+        list(roots[0], 0); // place your code here to traverse, in order, the tree with number main_index
+      }else if(strcmp(argv[3],"-list1") == 0){   
+        printf("List of persons:\n");
+        list(roots[1], 1); // place your code here to traverse, in order, the tree with number main_index
+      }else if(strcmp(argv[3],"-list2") == 0){   
+        printf("List of persons:\n");
+        list(roots[2], 2); // place your code here to traverse, in order, the tree with number main_index
       }
+          
+        
+       
+        
     //
 
-
     
-
+    // Some more prints
+      printf("how many nodes is ---> %d\n", numberNodes(&roots[2],2));
+      node_depth(&roots[2],2,&persons[2],0,0);
+      printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
+      printf("nodes with depth 10  =  %d\n",deapthNodes(&roots[2],2, 10));
+    //
+    
+    
 
     // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
     free(persons);

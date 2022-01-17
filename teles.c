@@ -25,8 +25,9 @@ typedef struct tree_node_s
   char name[MAX_NAME_SIZE + 1];                         // index 0 data item
   char zip_code[MAX_ZIP_CODE_SIZE + 1];                 // index 1 data item
   char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1]; // index 2 data item
-  struct tree_node_s *left[3];                          // left pointers (one for each index) ---- left means smaller
-  struct tree_node_s *right[3];                         // right pointers (one for each index) --- right means larger
+  char security_number[MAX_SECURITY_NUMBER_SIZE + 1];
+  struct tree_node_s *left[4];                          // left pointers (one for each index) ---- left means smaller
+  struct tree_node_s *right[4];                         // right pointers (one for each index) --- right means larger
 }
 tree_node_t; 
 
@@ -36,14 +37,16 @@ tree_node_t;
   
     int i,c;
 
-    for(i = 0;i < 3;i++)
+    for(i = 0;i < 4;i++)
     {
       if(main_idx == 0)
         c = strcmp(node1->name,node2->name); // compara nome
       else if(main_idx == 1)
         c = strcmp(node1->zip_code,node2->zip_code); // compara zip
-      else
+      else if(main_idx == 2)
         c = strcmp(node1->telephone_number,node2->telephone_number); // compara numero
+      else
+        c = strcmp(node1->security_number,node2->security_number); // compara sec numero
       if(c != 0)
         return c; // different on this index, so return (sao diferentes, retorna c)
       main_idx = (main_idx == 2) ? 0 : main_idx + 1; // advance to the next index (sao iguais, bora para o prox)
@@ -118,11 +121,12 @@ tree_node_t;
 // list, i,e, traverse the tree 
   void visit_node(tree_node_t* node){
 
-    printf("----------------------\n");
-    printf("----------------------\n");
-    printf("Name ----------------- %s\n",node->name);
-    printf("ZipCode ----------------- %s\n",node->zip_code);
-    printf("Telephone Number ----------------- %s\n",node->telephone_number);
+     
+    printf("Person #\n");
+    printf("  Name --------------- %s\n",node->name);
+    printf("  ZipCode ------------ %s\n",node->zip_code);
+    printf("  Telephone Number --- %s\n",node->telephone_number);
+    printf("  Security Number --- %s\n",node->security_number);
 
     return;
   }       
@@ -251,7 +255,8 @@ tree_node_t;
         random_name(&(persons[i].name[0]));
         random_zip_code(&(persons[i].zip_code[0]));
         random_telephone_number(&(persons[i].telephone_number[0]));
-        for(int j = 0;j < 3;j++)
+        random_security_number(&(persons[i].security_number[0]));
+        for(int j = 0;j < 4;j++)
           persons[i].left[j] = persons[i].right[j] = NULL; // make sure the pointers are initially NULL
       }
     //
@@ -260,7 +265,7 @@ tree_node_t;
     // create the ordered binary trees
 
       dt = cpu_time();
-      tree_node_t *roots[3]; // three indices, three roots
+      tree_node_t *roots[4]; // three indices, three roots
 
       for(int main_index = 0;main_index < 3;main_index++){
         roots[main_index] = NULL;
@@ -282,7 +287,7 @@ tree_node_t;
           
           if((i+1) % 5000 == 0){
             double tmf = cpu_time() - tm;
-            fprintf(f, "%d %f \n",i, tmf);
+            //fprintf(f, "%d %f \n",i, tmf);
           }
         }
       }
@@ -313,7 +318,7 @@ tree_node_t;
           if((i+1) % 5000 == 0){
 
             double tmf = cpu_time() - dt;
-            fprintf(f2, "%d %f \n",i, tmf);
+            //fprintf(f2, "%d %f \n",i, tmf);
           }
         }
         dt = cpu_time() - dt;

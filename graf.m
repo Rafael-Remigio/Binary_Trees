@@ -31,32 +31,21 @@ f_V1_5 = A_5(:, 2);
 n_V1_6 = A_6(:, 1);
 f_V1_6 = A_6(:, 2); 
 
-     
- 
-  
-
+    
 grid on
 
  
 figure(1);    
-plot(n_V1_1, f_V1_1);  
+plot(n_V1_1, f_V1_1, n_V1_2, f_V1_2, n_V1_3, f_V1_3); 
+legend("Names","Zip Code","Phone Numbers" )
 
 figure(2);   
-plot(n_V1_2, f_V1_2); 
+plot(n_V1_4, f_V1_4, n_V1_5, f_V1_5, n_V1_6, f_V1_6);
+legend("Names","Zip Code","Phone Numbers" )
+    
+  
 
-figure(3);     
-plot(n_V1_3, f_V1_3);  
-
-figure(4);     
-plot(n_V1_4, f_V1_4);
-
-figure(5);     
-plot(n_V1_5, f_V1_5); 
- 
-figure(6);    
-plot(n_V1_6, f_V1_6); 
-
- 
+%%  
 figure(7);    
 histogram(f_V1_1);  
 

@@ -12,6 +12,7 @@
 #define MAX_NAME_SIZE              31
 #define MAX_ZIP_CODE_SIZE          63
 #define MAX_TELEPHONE_NUMBER_SIZE  15
+#define MAX_SECURITY_NUMBER_SIZE  15
 
 // from random_number.c
 void aed_srandom(int seed);

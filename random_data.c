@@ -1864,6 +1864,7 @@ static void correct_counts(int array_size,name_part_t array[array_size + 1])
 static char *random_part(int array_size,name_part_t array[array_size + 1])
 {
   long long rnd = ((long long)aed_random() << 30) + (long long)aed_random(); // a large pseudo-random number
+  printf("%lld \n", rnd);
   int target_count = (int)(rnd % (long long)array[array_size].count); // the cumulative count we will be looking for
   // custom binary search
   int low = 0;
@@ -1933,3 +1934,16 @@ void random_telephone_number(char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1
     exit(1);
   }
 }
+
+void random_security_number(char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1])
+{
+  int n1 = 1000 + aed_random() % 9000; // 1000..9999
+  int n2 = aed_random() % 1000;        //  000..999
+  int n3 = aed_random() % 1000;        //  000..999
+  if(snprintf(telephone_number,MAX_TELEPHONE_NUMBER_SIZE + 1,"%04d %03d %03d",n1,n2,n3) >= MAX_TELEPHONE_NUMBER_SIZE + 1)
+  {
+    fprintf(stderr,"telephone number too large (%04d) (%03d (%03d)\n",n1,n2,n3);
+    exit(1);
+  }
+}
+

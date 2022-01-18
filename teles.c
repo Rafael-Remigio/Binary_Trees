@@ -241,7 +241,7 @@ tree_node_t;
         return 1;
       }
     //
- 
+
     // generate all data
       tree_node_t *persons = (tree_node_t *)calloc((size_t)n_persons,sizeof(tree_node_t));
       if(persons == NULL)
@@ -259,20 +259,19 @@ tree_node_t;
         for(int j = 0;j < 4;j++)
           persons[i].left[j] = persons[i].right[j] = NULL; // make sure the pointers are initially NULL
       }
-    //
-
+    // 
 
     // create the ordered binary trees
 
       dt = cpu_time();
       tree_node_t *roots[4]; // three indices, three roots
 
-      for(int main_index = 0;main_index < 3;main_index++){
+      for(int main_index = 0;main_index < 4;main_index++){
         roots[main_index] = NULL;
       }
 
       double tm;
-      for(int main_index = 0;main_index < 3;main_index++){
+      for(int main_index = 0;main_index < 4;main_index++){
         
         FILE *f = NULL;
         char str[16];
@@ -292,12 +291,11 @@ tree_node_t;
         }
       }
       dt = cpu_time() - dt;
-      printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+      //printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
     //
     
-
     // search the tree
-      for(int main_index = 0;main_index < 3;main_index++){
+      for(int main_index = 0;main_index < 4;main_index++){
 
         FILE *f2 = NULL;
         char str[20];
@@ -322,51 +320,55 @@ tree_node_t;
           }
         }
         dt = cpu_time() - dt;
-        printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
+        //printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
       }
     //
 
-    
-
     // compute the largest tree depdth
-      for(int main_index = 0;main_index < 3;main_index++)
+      for(int main_index = 0;main_index < 4;main_index++)
       {
         dt = cpu_time();
         int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
         dt = cpu_time() - dt;
-        printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+        //printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+        printf("%d  %d  %d\n", n_persons, main_index,depth);
       }
-    //
-     
-    // process the command line optional arguments
-       
-     
-      if(strcmp(argv[3],"-list0") == 0){   
-        printf("List of persons:\n");
-        list(roots[0], 0); // place your code here to traverse, in order, the tree with number main_index
-      }else if(strcmp(argv[3],"-list1") == 0){   
-        printf("List of persons:\n");
-        list(roots[1], 1); // place your code here to traverse, in order, the tree with number main_index
-      }else if(strcmp(argv[3],"-list2") == 0){   
-        printf("List of persons:\n");
-        list(roots[2], 2); // place your code here to traverse, in order, the tree with number main_index
-      }
-          
-        
-       
-        
     //
 
     
+    // process the command line optional arguments
+       
+      if(argc == 4){
+        printf("\n\n");
+        if(strcmp(argv[3],"-list0") == 0){   
+          printf("List of persons:\n");
+          list(roots[0], 0); // place your code here to traverse, in order, the tree with number main_index
+        }else if(strcmp(argv[3],"-list1") == 0){   
+          printf("List of persons:\n");
+          list(roots[1], 1); // place your code here to traverse, in order, the tree with number main_index
+        }else if(strcmp(argv[3],"-list2") == 0){   
+          printf("List of persons:\n");
+          list(roots[2], 2); // place your code here to traverse, in order, the tree with number main_index
+        }
+        else if(strcmp(argv[3],"-list3") == 0){   
+          printf("List of persons:\n");
+          list(roots[3], 3); // place your code here to traverse, in order, the tree with number main_index
+        }
+        printf("\n\n");   
+      }
+    //
+    
+
+     
+    /*
     // Some more prints
       printf("how many nodes is ---> %d\n", numberNodes(&roots[2],2));
       node_depth(&roots[2],2,&persons[2],0,0);
       printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
       printf("nodes with depth 10  =  %d\n",deapthNodes(&roots[2],2, 10));
     //
+    */
     
-    
-
     // clean up --- don't forget to test your program with valgrind, we don't want any memory leaks
     free(persons);
     return 0;

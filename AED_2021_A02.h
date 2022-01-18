@@ -22,6 +22,7 @@ int aed_random(void);
 void random_name(char name[MAX_NAME_SIZE + 1]);
 void random_zip_code(char zip_code[MAX_ZIP_CODE_SIZE + 1]);
 void random_telephone_number(char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1]);
+void random_security_number(char security_number[MAX_SECURITY_NUMBER_SIZE + 1]);
 
 // from elapsed_time.c
 double cpu_time(void);

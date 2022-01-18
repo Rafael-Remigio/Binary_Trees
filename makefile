@@ -22,6 +22,5 @@ solution_multi_ordered_tree:	solution_multi_ordered_tree.c $(AUX_C_FILES) $(AUX_
 remigio:	remigio.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 remigio.c $(AUX_C_FILES) -o remigio
 
-teles: teles.c $(AUX_C_FILES) $(AUX_H_FILES)
+teles:	teles.c $(AUX_C_FILES) $(AUX_H_FILES)
 	cc -Wall -O2 teles.c $(AUX_C_FILES) -o teles
-

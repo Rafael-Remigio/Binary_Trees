@@ -1,6 +1,9 @@
 #!/bin/bash
 
-for n in {1..1000..100}
+for i in {3..10000..100}
 do
-    ./teles $n 3 >> file $n
+    for n in {999000..999999}
+    do
+        ./teles $n $i >> file 
+    done
 done        

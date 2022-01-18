@@ -4,3 +4,4 @@ implement a queue in c
 need to use this for a better implementation of the breadth list algoritm
     https://www.youtube.com/watch?v=86g8jAQug04
     https://gist.github.com/kroggen/5fc7380d30615b2e70fcf9c7b69997b6
+	https://www.youtube.com/watch?v=FcIubL92gaI

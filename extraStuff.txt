@@ -1,7 +1,7 @@
 Stuff the teacher said with give us a better grade
 done    tree depth
 done    how many nodes
-    how many nodes in each level
+done    how many nodes in each level
 done    how many leaf nodes
     histograma para ver quantos nos estão em cada nivel
     estudo estatisco da profundidade da arvore

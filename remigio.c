@@ -30,6 +30,63 @@ typedef struct tree_node_s
 tree_node_t;
 
 
+
+// queue implementation
+
+typedef struct node {
+    tree_node_t* val;
+    struct node *next;
+} node_q;
+
+typedef struct queue
+{
+    node_q* head;
+    node_q* tail;
+} queue;
+
+
+void init_queue(queue* q){
+    q->head = NULL;
+    q->tail = NULL;
+}
+
+void enqueue(queue* q, tree_node_t* value) {
+    // create new node
+    node_q * new_node = malloc(sizeof(node_q));
+    if (new_node==NULL) { return;}    //if malloc fails
+    new_node->val = value;
+    new_node->next = NULL;
+    
+    // if there is a tail we just connect that tail to this node
+    if (q->tail != NULL){
+        q->tail->next = new_node;
+    }
+    q->tail = new_node;
+
+    // if there is no head we set this one also as head
+    if (q->head == NULL) {
+        q->head = new_node;
+    }
+    return;
+}
+
+tree_node_t* dequeue(queue* q) {
+    if (q->head == NULL) {return NULL;}
+    node_q * tmp = q->head;
+    tree_node_t* result = tmp->val;
+    q->head = q->head->next;
+    if (q->head == NULL){
+        q->tail = NULL;
+    }
+    free(tmp);
+    return result;
+}
+
+
+
+
+
+
 //
 // the node comparison function (do not change this)
 //
@@ -120,6 +177,24 @@ int tree_depth(tree_node_t** root, int main_idx)
   }
   else{
     return rightheight + 1 ;
+  }
+}
+
+
+void traverse_breadth_first(tree_node_t *link,int main_idx)
+{
+  queue q1;
+  init_queue(&q1);
+  enqueue(&q1,link);
+  while(q1.head != NULL)
+  {
+    link = dequeue(&q1);
+    if(link != NULL)
+    {
+      visit_node(link);
+      enqueue(&q1,link->left[main_idx]);
+      enqueue(&q1,link->right[main_idx]);
+    }
   }
 }
 
@@ -335,6 +410,9 @@ for(int main_index = 0;main_index < 3;main_index++)
   node_depth(&roots[2],2,&persons[2],0,0);
   printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
   printf("nodes with depth 10  =  %d\n",deapthNodes(&roots[2],2, 10));
+
+  traverse_breadth_first(roots[2],2);
+
   free(persons);
 
   return 0;

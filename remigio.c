@@ -181,6 +181,20 @@ int tree_depth(tree_node_t** root, int main_idx)
 }
 
 
+//
+// list, i,e, traverse the tree (place your code here)
+//
+void visit_node(tree_node_t* node)
+{
+  printf("----------------------\n");
+  printf("----------------------\n");
+  printf("Name ----------------- %s\n",node->name);
+  printf("ZipCode ----------------- %s\n",node->zip_code);
+  printf("Telephone Number ----------------- %s\n",node->telephone_number);
+
+  return;
+}
+
 void traverse_breadth_first(tree_node_t *link,int main_idx)
 {
   queue q1;
@@ -198,20 +212,6 @@ void traverse_breadth_first(tree_node_t *link,int main_idx)
   }
 }
 
-
-//
-// list, i,e, traverse the tree (place your code here)
-//
-void visit_node(tree_node_t* node)
-{
-  printf("----------------------\n");
-  printf("----------------------\n");
-  printf("Name ----------------- %s\n",node->name);
-  printf("ZipCode ----------------- %s\n",node->zip_code);
-  printf("Telephone Number ----------------- %s\n",node->telephone_number);
-
-  return;
-}
 
 int list(tree_node_t* node,int main_idx)
 {
@@ -302,6 +302,34 @@ int leafCount(tree_node_t** rootp,int main_idx)
   {
     return leafCount(&(*rootp)->left[main_idx],main_idx) + leafCount(&(*rootp)->right[main_idx],main_idx);
   }
+}
+
+void sameZip(tree_node_t** rootp,char * zip){
+
+  if ((*rootp)==NULL){return;}
+  if (strcmp((*rootp)->zip_code,zip) == 0)
+  {
+    visit_node(*rootp);
+    if ((*rootp)->left[1] != NULL){
+      if (strcmp(((*rootp)->left[1]->zip_code) ,zip) == 0){
+        sameZip(&((*rootp)->left[1]),zip);
+      }
+    }
+    if ((*rootp)->right[1] != NULL){
+      if (strcmp(((*rootp)->right[1]->zip_code) ,zip) == 0){
+        sameZip(&((*rootp)->right[1]),zip);
+      }
+    }
+  }
+  else if (strcmp((*rootp)->zip_code,zip) > 0)
+  {
+    sameZip(&((*rootp)->left[1]),zip);
+  }
+  else
+  {
+    sameZip(&((*rootp)->right[1]),zip);
+  }
+  return;
 }
 
 //
@@ -411,8 +439,13 @@ for(int main_index = 0;main_index < 3;main_index++)
   printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
   printf("nodes with depth 10  =  %d\n",deapthNodes(&roots[2],2, 10));
 
-  traverse_breadth_first(roots[2],2);
+  //traverse_breadth_first(roots[2],2);
+  
+  printf("\n\n\n");
 
+  char * zip = "77449 Katy (Harris county)";
+
+  sameZip(&roots[1],zip);
   free(persons);
 
   return 0;

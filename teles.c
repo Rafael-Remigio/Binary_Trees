@@ -49,7 +49,7 @@ tree_node_t;
         c = strcmp(node1->security_number,node2->security_number); // compara sec numero
       if(c != 0)
         return c; // different on this index, so return (sao diferentes, retorna c)
-      main_idx = (main_idx == 2) ? 0 : main_idx + 1; // advance to the next index (sao iguais, bora para o prox)
+      main_idx = (main_idx == 3) ? 0 : main_idx + 1; // advance to the next index (sao iguais, bora para o prox)
     }
     return 0;
   }
@@ -291,7 +291,7 @@ tree_node_t;
         }
       }
       dt = cpu_time() - dt;
-      //printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+      printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
     //
     
     // search the tree
@@ -320,7 +320,7 @@ tree_node_t;
           }
         }
         dt = cpu_time() - dt;
-        //printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
+        printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
       }
     //
 
@@ -330,8 +330,8 @@ tree_node_t;
         dt = cpu_time();
         int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
         dt = cpu_time() - dt;
-        //printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-        printf("%d  %d  %d\n", n_persons, main_index,depth);
+        printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+        //printf("%d  %d  %d\n", n_persons, main_index,depth);
       }
     //
 

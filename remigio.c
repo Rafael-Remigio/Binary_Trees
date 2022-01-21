@@ -182,13 +182,13 @@ tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
           node to check whether this node became
           unbalanced */
     int balance = getBalance(node,main_idx);
-    printf("%d\n",balance);
+
     // If this node becomes unbalanced, then
     // there are 4 cases
 
     // Left Left Case
     if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) < 0)
-    {    printf("here2");
+    {   
         return rightRotate(node,main_idx);
     }
     // Right Right Case
@@ -198,7 +198,7 @@ tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
     // Left Right Case
     if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) > 0)
     {
-        printf("here3");
+
         node->left[main_idx] =  leftRotate(node->left[main_idx],main_idx);
         return rightRotate(node,main_idx);
     }
@@ -209,7 +209,7 @@ tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
         node->right[main_idx] = rightRotate(node->right[main_idx],main_idx);
         return leftRotate(node,main_idx);
     }
-  printf("here\n");
+
     /* return the (unchanged) node pointer */
     return node;
 }
@@ -564,21 +564,22 @@ for(int main_index = 0;main_index < 3;main_index++)
   tree_node_t* roots2[3]; // three indices, three roots
   for(int main_index = 0;main_index < 3;main_index++)
     roots2[main_index] = NULL;
-  int main_index = 1;
+
+  for (int main_index = 0; main_index<3;main_index++){
   for(int i = 0;i < n_persons;i++)
   {
        roots2[main_index] = insert(roots2[main_index],&persons[i],main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
-       traverse_breadth_first(roots2[main_index],main_index);
   }
   dt2 = cpu_time() - dt;
   printf("Tree creation time (%d persons): %.3es\n",n_persons,dt2);
-
-  for(int i = 0;i < n_persons;i++)
-  {
-       printf("the zip is --> %s\n",persons[i].zip_code);
-
   }
-
+  for(int main_index = 0;main_index < 3;main_index++)
+  {
+    dt = cpu_time();
+    int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
+    dt = cpu_time() - dt;
+    printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+  } 
 
   free(persons);
 

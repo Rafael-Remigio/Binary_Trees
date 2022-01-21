@@ -110,6 +110,111 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
   return 0;
 }
 
+// 
+// ALL THE STUFF FOR AVL TREES
+//
+
+// A utility function to right rotate subtree rooted with y
+// See the diagram given above.
+tree_node_t *rightRotate(tree_node_t *y,int main_idx)
+{
+    tree_node_t *x = y->left[main_idx];
+    tree_node_t *T2 = x->right[main_idx];
+
+    // Perform rotation
+    x->right[main_idx] = y;
+    y->left[main_idx] = T2;
+
+
+
+    // Return new root
+    return x;
+}
+
+// A utility function to left rotate subtree rooted with x
+// See the diagram given above.
+tree_node_t *leftRotate(tree_node_t *x,int main_idx)
+{
+    tree_node_t *y = x->right[main_idx];
+    tree_node_t *T2 = y->left[main_idx];
+
+    // Perform rotation
+    y->left[main_idx] = x;
+    x->right[main_idx] = T2;
+
+
+    // Return new root
+    return y;
+}
+
+// Get Balance factor of node N
+int getBalance(tree_node_t *N, int main_idx)
+{
+    if (N == NULL)
+        return 0;
+    return tree_depth(&(N->left[main_idx]),main_idx) - tree_depth(&(N->right[main_idx]),main_idx);
+}
+
+// Recursive function to insert a key in the subtree rooted
+// with node and returns the new root of the subtree.
+tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
+{
+
+    if (node == NULL){
+      return person;
+    }
+
+    int c = compare_tree_nodes(node,person,main_idx);
+
+    if (c > 0)
+    {
+       node->left[main_idx]  = insert(node->left[main_idx], person, main_idx);
+    }
+    else
+    {
+      node->right[main_idx]  = insert(node->right[main_idx], person,main_idx);
+    }
+
+
+    
+
+    /* 3. Get the balance factor of this ancestor
+          node to check whether this node became
+          unbalanced */
+    int balance = getBalance(node,main_idx);
+    printf("%d\n",balance);
+    // If this node becomes unbalanced, then
+    // there are 4 cases
+
+    // Left Left Case
+    if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) < 0)
+    {    printf("here2");
+        return rightRotate(node,main_idx);
+    }
+    // Right Right Case
+    if (balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)> 0)
+        return leftRotate(node,main_idx);
+
+    // Left Right Case
+    if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) > 0)
+    {
+        printf("here3");
+        node->left[main_idx] =  leftRotate(node->left[main_idx],main_idx);
+        return rightRotate(node,main_idx);
+    }
+
+    // Right Left Case
+    if (balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)< 0)
+    {
+        node->right[main_idx] = rightRotate(node->right[main_idx],main_idx);
+        return leftRotate(node,main_idx);
+    }
+  printf("here\n");
+    /* return the (unchanged) node pointer */
+    return node;
+}
+
+
 
 //
 // tree insertion routine (place your code here)
@@ -434,7 +539,7 @@ for(int main_index = 0;main_index < 3;main_index++)
   list(roots[2],2);                                             my tests
   node_depth(&roots[2],2,&persons[2],0,0); */
 
-  printf("how many nodes is ---> %d\n", numberNodes(&roots[2],2));
+/*   printf("how many nodes is ---> %d\n", numberNodes(&roots[2],2));
   node_depth(&roots[2],2,&persons[2],0,0);
   printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
   printf("nodes with depth 10  =  %d\n",deapthNodes(&roots[2],2, 10));
@@ -445,7 +550,36 @@ for(int main_index = 0;main_index < 3;main_index++)
 
   char * zip = "77449 Katy (Harris county)";
 
-  sameZip(&roots[1],zip);
+  sameZip(&roots[1],zip); */
+
+
+ // create the ordered binary trees
+  for(int i = 0;i < n_persons;i++)
+  { 
+    for(int j = 0;j < 3;j++)
+      persons[i].left[j] = persons[i].right[j] = NULL; // make sure the pointers are initially NULL
+  }
+
+  double dt2 = cpu_time();
+  tree_node_t* roots2[3]; // three indices, three roots
+  for(int main_index = 0;main_index < 3;main_index++)
+    roots2[main_index] = NULL;
+  int main_index = 1;
+  for(int i = 0;i < n_persons;i++)
+  {
+       roots2[main_index] = insert(roots2[main_index],&persons[i],main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+       traverse_breadth_first(roots2[main_index],main_index);
+  }
+  dt2 = cpu_time() - dt;
+  printf("Tree creation time (%d persons): %.3es\n",n_persons,dt2);
+
+  for(int i = 0;i < n_persons;i++)
+  {
+       printf("the zip is --> %s\n",persons[i].zip_code);
+
+  }
+
+
   free(persons);
 
   return 0;

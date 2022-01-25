@@ -31,6 +31,57 @@ typedef struct tree_node_s
 }
 tree_node_t; 
 
+// queue implementation
+
+  typedef struct node {
+    tree_node_t* val;
+    struct node *next;
+  } node_q;
+
+  typedef struct queue
+  {
+    node_q* head;
+    node_q* tail;
+  } queue;
+
+
+  void init_queue(queue* q){
+    q->head = NULL;
+    q->tail = NULL;
+  }
+
+  void enqueue(queue* q, tree_node_t* value) {
+    // create new node
+    node_q * new_node = malloc(sizeof(node_q));
+    if (new_node==NULL) { return;}    //if malloc fails
+    new_node->val = value;
+    new_node->next = NULL;
+    
+    // if there is a tail we just connect that tail to this node
+    if (q->tail != NULL){
+        q->tail->next = new_node;
+    }
+    q->tail = new_node;
+
+    // if there is no head we set this one also as head
+    if (q->head == NULL) {
+        q->head = new_node;
+    }
+    return;
+  }
+
+  tree_node_t* dequeue(queue* q) {
+    if (q->head == NULL) {return NULL;}
+    node_q * tmp = q->head;
+    tree_node_t* result = tmp->val;
+    q->head = q->head->next;
+    if (q->head == NULL){
+        q->tail = NULL;
+    }
+    free(tmp);
+    return result;
+  }
+//
 
 // the node comparison function (do not change this)
   int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx){
@@ -126,27 +177,65 @@ tree_node_t;
     printf("  Name --------------- %s\n",node->name);
     printf("  ZipCode ------------ %s\n",node->zip_code);
     printf("  Telephone Number --- %s\n",node->telephone_number);
-    printf("  Security Number --- %s\n",node->security_number);
+    printf("  Social Security Number --- %s\n",node->security_number);
 
     return;
   }       
 
-  int list(tree_node_t* node,int main_idx){
+  int list_in_order(tree_node_t* node,int main_idx){
 
     if (node !=NULL){
-
-      visit_node(node);
       if (node->left[main_idx] != NULL){
-
-        list(node->left[main_idx],main_idx);
+        list_in_order(node->left[main_idx],main_idx);
       }
+          visit_node(node);
       if (node->right[main_idx] != NULL){
 
-        list(node->right[main_idx],main_idx);
+        list_in_order(node->right[main_idx],main_idx);
       }
+
     }
     return 1;
+
   } 
+
+
+
+int list_pre_order(tree_node_t* node,int main_idx)
+{
+
+  if (node !=NULL){
+    visit_node(node);
+    if (node->left[main_idx] != NULL){
+      list_pre_order(node->left[main_idx],main_idx);
+    }
+    if (node->right[main_idx] != NULL){
+
+      list_pre_order(node->right[main_idx],main_idx);
+    }
+
+  }
+  return 1;
+
+} 
+
+  void traverse_breadth_first(tree_node_t *link,int main_idx){
+
+    queue q1;
+    init_queue(&q1);
+    enqueue(&q1,link);
+    while(q1.head != NULL)
+    {
+      link = dequeue(&q1);
+      if(link != NULL)
+      {
+        visit_node(link);
+        enqueue(&q1,link->left[main_idx]);
+        enqueue(&q1,link->right[main_idx]);
+      }
+    }
+  }
+
 //
 
 // Find depth of node
@@ -214,6 +303,109 @@ tree_node_t;
   }
 //
  
+
+// ALL THE STUFF FOR AVL TREES
+ 
+  // A utility function to right rotate subtree rooted with y
+  // See the diagram given above.
+  tree_node_t *rightRotate(tree_node_t *y,int main_idx){
+
+    tree_node_t *x = y->left[main_idx];
+    tree_node_t *T2 = x->right[main_idx];
+
+    // Perform rotation
+    x->right[main_idx] = y;
+    y->left[main_idx] = T2;
+
+
+
+    // Return new root
+    return x;
+  }
+
+  // A utility function to left rotate subtree rooted with x
+  // See the diagram given above.
+  tree_node_t *leftRotate(tree_node_t *x,int main_idx){
+
+    tree_node_t *y = x->right[main_idx];
+    tree_node_t *T2 = y->left[main_idx];
+
+    // Perform rotation
+    y->left[main_idx] = x;
+    x->right[main_idx] = T2;
+
+
+    // Return new root
+    return y;
+  }
+
+  // Get Balance factor of node N
+  int getBalance(tree_node_t *N, int main_idx){
+
+    if (N == NULL)
+        return 0;
+    return tree_depth(&(N->left[main_idx]),main_idx) - tree_depth(&(N->right[main_idx]),main_idx);
+  } 
+
+  // Recursive function to insert a key in the subtree rooted
+  // with node and returns the new root of the subtree.
+  tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx){
+
+    if (node == NULL){
+      return person;
+    }
+
+    int c = compare_tree_nodes(node,person,main_idx);
+
+    if (c > 0)
+    {
+       node->left[main_idx]  = insert(node->left[main_idx], person, main_idx);
+    }
+    else
+    {
+      node->right[main_idx]  = insert(node->right[main_idx], person,main_idx);
+    }
+
+
+    /* 3. Get the balance factor of this ancestor
+          node to check whether this node became
+          unbalanced */
+    int balance = getBalance(node,main_idx);
+
+    // If this node becomes unbalanced, then
+    // there are 4 cases
+
+    // Left Left Case
+    if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) < 0)
+    {   
+        return rightRotate(node,main_idx);
+    }
+    // Right Right Case
+    if (balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)> 0)
+        return leftRotate(node,main_idx);
+
+    // Left Right Case
+    if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) > 0)
+    {
+
+        node->left[main_idx] =  leftRotate(node->left[main_idx],main_idx);
+        return rightRotate(node,main_idx);
+    }
+
+    // Right Left Case
+    if (balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)< 0)
+    {
+        node->right[main_idx] = rightRotate(node->right[main_idx],main_idx);
+        return leftRotate(node,main_idx);
+    }
+
+    /* return the (unchanged) node pointer */
+    return node;
+  } 
+//  
+
+
+
 // main program
   int main(int argc,char **argv){
   
@@ -342,17 +534,17 @@ tree_node_t;
         printf("\n\n");
         if(strcmp(argv[3],"-list0") == 0){   
           printf("List of persons:\n");
-          list(roots[0], 0); // place your code here to traverse, in order, the tree with number main_index
+          list_in_order(roots[0], 0); // place your code here to traverse, in order, the tree with number main_index
         }else if(strcmp(argv[3],"-list1") == 0){   
           printf("List of persons:\n");
-          list(roots[1], 1); // place your code here to traverse, in order, the tree with number main_index
+          list_in_order(roots[1], 1); // place your code here to traverse, in order, the tree with number main_index
         }else if(strcmp(argv[3],"-list2") == 0){   
           printf("List of persons:\n");
-          list(roots[2], 2); // place your code here to traverse, in order, the tree with number main_index
+          list_in_order(roots[2], 2); // place your code here to traverse, in order, the tree with number main_index
         }
         else if(strcmp(argv[3],"-list3") == 0){   
           printf("List of persons:\n");
-          list(roots[3], 3); // place your code here to traverse, in order, the tree with number main_index
+          list_in_order(roots[3], 3); // place your code here to traverse, in order, the tree with number main_index
         }
         printf("\n\n");   
       }

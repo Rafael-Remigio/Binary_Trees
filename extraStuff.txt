@@ -1,15 +1,18 @@
 Stuff the teacher said with give us a better grade
 done    tree depth
 done    how many nodes
+done    ordered traversal
 done    how many nodes in each level
 done    how many leaf nodes
     histograma para ver quantos nos estão em cada nivel
     estudo estatisco da profundidade da arvore
 
 what i need to do
-    breath traversal and depth from breath traversal
+done    breath traversal and depth from breath traversal
+done    ordered traversal
 done    how many nodes 
-    how many nodes in each level
+done    how many nodes in each level
 done    how many leaf nodes
+    same zip done need same name, same telefone and same security number
     histograma para ver quantos nos estão em cada nivel
     estudo estatisco da profundidade da arvore

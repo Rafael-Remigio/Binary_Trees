@@ -318,17 +318,37 @@ void traverse_breadth_first(tree_node_t *link,int main_idx)
 }
 
 
-int list(tree_node_t* node,int main_idx)
+int list_in_order(tree_node_t* node,int main_idx)
+{
+
+  if (node !=NULL){
+    if (node->left[main_idx] != NULL){
+      list_in_order(node->left[main_idx],main_idx);
+    }
+        visit_node(node);
+    if (node->right[main_idx] != NULL){
+
+      list_in_order(node->right[main_idx],main_idx);
+    }
+
+  }
+  return 1;
+
+} 
+
+
+
+int list_pre_order(tree_node_t* node,int main_idx)
 {
 
   if (node !=NULL){
     visit_node(node);
     if (node->left[main_idx] != NULL){
-      list(node->left[main_idx],main_idx);
+      list_pre_order(node->left[main_idx],main_idx);
     }
     if (node->right[main_idx] != NULL){
 
-      list(node->right[main_idx],main_idx);
+      list_pre_order(node->right[main_idx],main_idx);
     }
 
   }
@@ -544,20 +564,22 @@ for(int main_index = 0;main_index < 3;main_index++)
   printf("\nleaf count is -------> %d\n",leafCount(&roots[2],2));
   printf("nodes with depth 10  =  %d\n",deapthNodes(&roots[2],2, 10));
 
-  //traverse_breadth_first(roots[2],2);
+  traverse_breadth_first(roots[2],2);
   
   printf("\n\n\n");
 
   char * zip = "77449 Katy (Harris county)";
 
   sameZip(&roots[1],zip); */
-
+  list_in_order(roots[0],0);
 
  // create the ordered binary trees
   for(int i = 0;i < n_persons;i++)
   { 
     for(int j = 0;j < 3;j++)
+    {
       persons[i].left[j] = persons[i].right[j] = NULL; // make sure the pointers are initially NULL
+    }
   }
 
   double dt2 = cpu_time();

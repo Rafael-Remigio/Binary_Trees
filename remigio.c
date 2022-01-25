@@ -429,33 +429,57 @@ int leafCount(tree_node_t** rootp,int main_idx)
   }
 }
 
-void sameZip(tree_node_t** rootp,char * zip){
+// number with same camp 
+
+int compareCamp(char *camp,tree_node_t* node,int main_idx){
+  switch (main_idx)
+  {
+  case 0:
+      return strcmp((node)->name,camp);
+    break;
+  case 1:
+      return strcmp((node)->zip_code,camp);
+    break;
+  case 2:
+      return strcmp((node)->telephone_number,camp);
+    break;
+
+  }
+
+}
+
+
+
+
+void sameType(tree_node_t** rootp,char * camp,int main_idx){
 
   if ((*rootp)==NULL){return;}
-  if (strcmp((*rootp)->zip_code,zip) == 0)
+  int c = compareCamp(camp,*rootp,main_idx);
+  if (c == 0)
   {
     visit_node(*rootp);
-    if ((*rootp)->left[1] != NULL){
-      if (strcmp(((*rootp)->left[1]->zip_code) ,zip) == 0){
-        sameZip(&((*rootp)->left[1]),zip);
+    if ((*rootp)->left[main_idx] != NULL){
+      if (compareCamp(camp,((*rootp)->left[main_idx]),main_idx) == 0){
+         sameType(&((*rootp)->left[main_idx]),camp,main_idx);
       }
     }
-    if ((*rootp)->right[1] != NULL){
-      if (strcmp(((*rootp)->right[1]->zip_code) ,zip) == 0){
-        sameZip(&((*rootp)->right[1]),zip);
+    if ((*rootp)->right[main_idx] != NULL){
+      if (compareCamp(camp,((*rootp)->right[main_idx]),main_idx) == 0){
+        sameType(&((*rootp)->right[main_idx]),camp,main_idx);
       }
     }
   }
-  else if (strcmp((*rootp)->zip_code,zip) > 0)
+  else if (c > 0)
   {
-    sameZip(&((*rootp)->left[1]),zip);
+    sameType(&((*rootp)->left[main_idx]),camp,main_idx);
   }
   else
   {
-    sameZip(&((*rootp)->right[1]),zip);
+    sameType(&((*rootp)->right[main_idx]),camp,main_idx);
   }
   return;
 }
+
 
 //
 // main program
@@ -571,8 +595,10 @@ for(int main_index = 0;main_index < 3;main_index++)
   char * zip = "77449 Katy (Harris county)";
 
   sameZip(&roots[1],zip); */
-  list_in_order(roots[0],0);
 
+
+
+  sameType(&roots[1],"10002 New York City (New York county)",1);
  // create the ordered binary trees
   for(int i = 0;i < n_persons;i++)
   { 
@@ -602,6 +628,7 @@ for(int main_index = 0;main_index < 3;main_index++)
     dt = cpu_time() - dt;
     printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
   } 
+
 
   free(persons);
 

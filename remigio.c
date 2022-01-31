@@ -26,9 +26,14 @@ typedef struct tree_node_s
   char telephone_number[MAX_TELEPHONE_NUMBER_SIZE + 1]; // index 2 data item
   struct tree_node_s *left[3];                          // left pointers (one for each index) ---- left means smaller
   struct tree_node_s *right[3];                         // right pointers (one for each index) --- right means larger
+  int height;
 }
 tree_node_t;
 
+int max(int a, int b)
+{
+    return (a > b)? a : b;
+}
 
 
 // queue implementation
@@ -114,17 +119,34 @@ int compare_tree_nodes(tree_node_t *node1,tree_node_t *node2,int main_idx)
 // ALL THE STUFF FOR AVL TREES
 //
 
+int height(tree_node_t *node){
+  if (node == NULL){
+    return 0;
+  }
+  return node->height;
+}
+
 // A utility function to right rotate subtree rooted with y
 // See the diagram given above.
 tree_node_t *rightRotate(tree_node_t *y,int main_idx)
 {
     tree_node_t *x = y->left[main_idx];
-    tree_node_t *T2 = x->right[main_idx];
+    tree_node_t *T2 = NULL;
+     if (x ){
+       T2 = x->right[main_idx];
+     }
 
     // Perform rotation
-    x->right[main_idx] = y;
+
+    if (x){
+       x->right[main_idx] = y;
+     }
     y->left[main_idx] = T2;
 
+    y->height = max(height(y->left[main_idx]),height( y->right[main_idx]))+1;
+    if (x){
+      x->height = max(height(x->left[main_idx]), height(x->right[main_idx]))+1;
+     }
 
 
     // Return new root
@@ -136,13 +158,22 @@ tree_node_t *rightRotate(tree_node_t *y,int main_idx)
 tree_node_t *leftRotate(tree_node_t *x,int main_idx)
 {
     tree_node_t *y = x->right[main_idx];
-    tree_node_t *T2 = y->left[main_idx];
-
+    tree_node_t *T2 = NULL;
+     if (y){
+       T2 = y->left[main_idx];
+     }
     // Perform rotation
-    y->left[main_idx] = x;
+    if (y){
+       y->left[main_idx] = x;
+     }
     x->right[main_idx] = T2;
 
 
+
+    x->height = max(height(x->left[main_idx]), height(x->right[main_idx]))+1;
+    if (y){
+       y->height = max(height(y->left[main_idx]), height(y->right[main_idx]))+1;
+     }
     // Return new root
     return y;
 }
@@ -152,7 +183,7 @@ int getBalance(tree_node_t *N, int main_idx)
 {
     if (N == NULL)
         return 0;
-    return tree_depth(&(N->left[main_idx]),main_idx) - tree_depth(&(N->right[main_idx]),main_idx);
+    return height(N->left[main_idx]) - height(N->right[main_idx]);
 }
 
 // Recursive function to insert a key in the subtree rooted
@@ -163,10 +194,11 @@ tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
     if (node == NULL){
       return person;
     }
+    int *c;
+    c = (int *) malloc(sizeof(int));
+    *c = compare_tree_nodes(node,person,main_idx);
 
-    int c = compare_tree_nodes(node,person,main_idx);
-
-    if (c > 0)
+    if (*c > 0)
     {
        node->left[main_idx]  = insert(node->left[main_idx], person, main_idx);
     }
@@ -175,28 +207,32 @@ tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
       node->right[main_idx]  = insert(node->right[main_idx], person,main_idx);
     }
 
+    // increase the height of the tree
 
+    node->height = 1 + max( height(node->right[main_idx]) ,height( node->left[main_idx]));
     
 
     /* 3. Get the balance factor of this ancestor
           node to check whether this node became
           unbalanced */
-    int balance = getBalance(node,main_idx);
+    int *balance;
+    balance = (int *) malloc(sizeof(int));
+    *balance = getBalance(node,main_idx);
 
     // If this node becomes unbalanced, then
     // there are 4 cases
 
     // Left Left Case
-    if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) < 0)
+    if (*balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) < 0)
     {   
         return rightRotate(node,main_idx);
     }
     // Right Right Case
-    if (balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)> 0)
+    if (*balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)> 0)
         return leftRotate(node,main_idx);
 
     // Left Right Case
-    if (balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) > 0)
+    if (*balance > 1 && compare_tree_nodes(person,node->left[main_idx],main_idx) > 0)
     {
 
         node->left[main_idx] =  leftRotate(node->left[main_idx],main_idx);
@@ -204,13 +240,14 @@ tree_node_t* insert(tree_node_t* node, tree_node_t* person, int main_idx)
     }
 
     // Right Left Case
-    if (balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)< 0)
-    {
+    if (*balance < -1 && compare_tree_nodes(person,node->right[main_idx],main_idx)< 0)
+    {   
         node->right[main_idx] = rightRotate(node->right[main_idx],main_idx);
         return leftRotate(node,main_idx);
     }
-
     /* return the (unchanged) node pointer */
+    free(c);
+    free(balance);
     return node;
 }
 
@@ -598,7 +635,7 @@ for(int main_index = 0;main_index < 3;main_index++)
 
 
 
-  sameType(&roots[1],"10002 New York City (New York county)",1);
+  //sameType(&roots[1],"10002 New York City (New York county)",1);
  // create the ordered binary trees
   for(int i = 0;i < n_persons;i++)
   { 
@@ -606,6 +643,7 @@ for(int main_index = 0;main_index < 3;main_index++)
     {
       persons[i].left[j] = persons[i].right[j] = NULL; // make sure the pointers are initially NULL
     }
+    persons[i].height =1 ;
   }
 
   double dt2 = cpu_time();
@@ -624,12 +662,12 @@ for(int main_index = 0;main_index < 3;main_index++)
   for(int main_index = 0;main_index < 3;main_index++)
   {
     dt = cpu_time();
-    int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
+    int depth = tree_depth(&roots2[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
     dt = cpu_time() - dt;
     printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
   } 
 
-
+  //list_in_order(roots2[1],1);
   free(persons);
 
   return 0;

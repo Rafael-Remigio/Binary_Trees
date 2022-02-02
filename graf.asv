@@ -36,11 +36,11 @@ grid on
 
  
 figure(1);    
-plot(n_V1_1, f_V1_1, n_V1_2, f_V1_2, n_V1_3, f_V1_3); 
+plot(n_V1_1, f_V1_1, n_V1_3, f_V1_3, n_V1_5, f_V1_5); 
 legend("Names","Zip Code","Phone Numbers" )
 
 figure(2);   
-plot(n_V1_4, f_V1_4, n_V1_5, f_V1_5, n_V1_6, f_V1_6);
+plot(n_V1_2, f_V1_2, n_V1_4, f_V1_, n_V1_6, f_V1_6);
 legend("Names","Zip Code","Phone Numbers" )
     
   
@@ -52,17 +52,15 @@ clc;
 
 A = load("file");
 
-for i = 3 :100 :10000
-     %se coluda 2==1  %coluna
-    deapth_0 = A(A(:,2)==0 && A(:,1)==i, 3);
-    figure(1);
+      %se coluda 2==1  %coluna
+    deapth_0 = A(A(:,2)==0, 3);
+  figure(1)
     plot(deapth_0);
 
     %deapth_1 = A(A(:,2)==1, 3);
     %deapth_2 = A(A(:,2)==2, 3); 
     %deapth_3 = A(A(:,2)==3, 3); 
-end
-    
+     
 grid on
 
  

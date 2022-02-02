@@ -32,17 +32,24 @@ n_V1_6 = A_6(:, 1);
 f_V1_6 = A_6(:, 2); 
 
     
-grid on
+
 
  
 figure(1);    
-plot(n_V1_1, f_V1_1, n_V1_2, f_V1_2, n_V1_3, f_V1_3); 
+plot(n_V1_1, f_V1_1, n_V1_3, f_V1_3, n_V1_5, f_V1_5); 
+title("Criação da Árvore")
 legend("Names","Zip Code","Phone Numbers" )
+xlabel("Número de Pessoas")
+ylabel("Tempo (s)")
+grid on  
 
 figure(2);   
-plot(n_V1_4, f_V1_4, n_V1_5, f_V1_5, n_V1_6, f_V1_6);
+plot(n_V1_2, f_V1_2, n_V1_4, f_V1_4, n_V1_6, f_V1_6);
+title("Procura")
 legend("Names","Zip Code","Phone Numbers" )
-    
+xlabel("Número de Pessoas")
+ylabel("Tempo (s)")
+grid on  
   
 
 %%  

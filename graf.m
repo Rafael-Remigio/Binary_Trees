@@ -9,16 +9,24 @@ A_4 = load("1_Search.txt");
 A_5 = load("2_creation.txt");
 A_6 = load("2_Search.txt");
 L_n = load("leaf_nodes_graf.txt");
- 
-n_L1 = L_n(:,1);
-f_L1 = L_n(:,2);
-
-figure(1);    
-plot(n_L1, f_L1); 
-title("Número de Folhas")
+D_1 = load("depth.txt");
+avl_d = load("avl_search.txt");
+D_n =  D_1(:,1);
+d_1 =  D_1(:,2);
+d_2 =  D_1(:,3);
+d_3 =  D_1(:,4);
+d_4 =  D_1(:,5);
+n_V1_2 = A_2(:, 1);
+f_V1_2 = A_2(:, 2); 
+avl_n = avl_d(:,1);
+avl_f =avl_d(:,2);
+figure(1);
+plot(n_V1_2,f_V1_2, avl_n,avl_f); 
+title("Profundidade")
+legend("Normal Tree","AVL Tree")
 xlabel("Número de Pessoas")
-ylabel("Media do Número de Folhas da respectiva árvore")
-grid on  
+ylabel("Profundidade da Árvore")
+grid on 
 %%
  %se coluda 2==1  %coluna
 n_V1_1 = A_1(:, 1);

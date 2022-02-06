@@ -410,8 +410,8 @@ tree_node_t* node_depth(tree_node_t** rootp,int main_idx,tree_node_t* person,int
 {
   if (compare_tree_nodes(*rootp,person,main_idx)==0)
   {
-    printf("found it\n");
-    printf("the position is at %d rigths and %d lefts, and has depth %d",rights,lefts,rights + lefts);
+    //printf("found it\n");
+    printf("Encontra-se na posição %d direitas e %d esquerdas, e tem profundidade %d\n",rights,lefts,rights + lefts);
     return *rootp;
   }
   else if (compare_tree_nodes(*rootp,person,main_idx) > 0)
@@ -578,7 +578,7 @@ int main(int argc,char **argv)
     // 
 
     // create the ordered binary trees
-
+/* 
 
       tree_node_t *roots[4]; // three indices, three roots
 
@@ -586,7 +586,7 @@ int main(int argc,char **argv)
         roots[main_index] = NULL;
       }
 
-      for(int main_index = 0;main_index < 1;main_index++){
+      for(int main_index = 0;main_index < 4;main_index++){
               dt = cpu_time();
 
         
@@ -596,14 +596,14 @@ int main(int argc,char **argv)
           
         }
         dt = cpu_time() - dt;
-       // printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
+       printf("Tree creation time (%d persons): %.3es\n",n_persons,dt);
       }
       
       
     //
     
     // search the tree
-/*       for(int main_index = 0;main_index < 4;main_index++){
+   for(int main_index = 0;main_index < 4;main_index++){
 
 
 
@@ -618,21 +618,24 @@ int main(int argc,char **argv)
         }
         dt = cpu_time() - dt;
         printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
-      } */
+      } 
     //
 
     // compute the largest tree depdth
-/*       for(int main_index = 0;main_index < 1;main_index++)
+  //  printf("%d",n_persons);
+ for(int main_index = 0;main_index < 4;main_index++)
       {
-        dt = cpu_time();
-        int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
-        dt = cpu_time() - dt;
-        //printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-        //printf("%d  %d  %f\n", n_persons, depth,dt);
-      } */
-    //
-    printf("%d %d\n",n_persons,leafCount(&roots[0],0));
-    
+      dt = cpu_time();
+      int depth = tree_depth(&roots[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
+      dt = cpu_time() - dt;     
+      printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
+      //  printf(" %d",depth);
+    } 
+  //  printf("\n");
+    //printf("%d %d\n",n_persons,leafCount(&roots[0],0));
+    //sameType(&roots[1],"10469 Bronx (Bronx county)",1);
+
+
     // process the command line optional arguments
        
       if(argc == 4){
@@ -654,7 +657,7 @@ int main(int argc,char **argv)
         printf("\n\n");   
       }
     //
-    
+     */
 
      
     /*
@@ -706,7 +709,7 @@ int main(int argc,char **argv)
 
   //sameType(&roots[1],"10002 New York City (New York county)",1);
  // create the ordered binary trees
-/*   for(int i = 0;i < n_persons;i++)
+for(int i = 0;i < n_persons;i++)
   { 
     for(int j = 0;j < 4;j++)
     {
@@ -715,42 +718,42 @@ int main(int argc,char **argv)
     persons[i].height =1 ;
   }
 
-
+ // printf("\n AVL TREES ----------------- \n\n");
   tree_node_t* roots2[4]; // three indices, three roots
   for(int main_index = 0;main_index < 4;main_index++)
     roots2[main_index] = NULL;
 
-  for (int main_index = 0; main_index <4;main_index++){
-  double dt2 = cpu_time();
-  for(int i = 0;i < n_persons;i++)
-  {
-       roots2[main_index] = insert(roots2[main_index],&persons[i],main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+  for (int main_index = 0; main_index <1;main_index++){
+    double dt2 = cpu_time();
+    for(int i = 0;i < n_persons;i++)
+    {
+         roots2[main_index] = insert(roots2[main_index],&persons[i],main_index); // place your code here to insert &(persons[i]) in the tree with number main_index
+    }
+    dt2 = cpu_time() - dt2;
+      // printf("Tree creation time (%d persons): %.3es\n",n_persons,dt2);
   }
-  dt2 = cpu_time() - dt;
-  printf("Tree creation time (%d persons): %.3es\n",n_persons,dt2);
-  }
-    for(int main_index = 0;main_index < 4;main_index++)
+/*     for(int main_index = 0;main_index < 1;main_index++)
   {
     dt = cpu_time();
     int depth = tree_depth(&roots2[main_index],main_index); // place your code here to compute the depth of the tree with number main_index
     dt = cpu_time() - dt;
-    printf("Tree depth for index %d: %d (done in %.3es)\n",main_index,depth,dt);
-  } 
+    printf("%d %d\n",n_persons,depth);
+  }  */
 
-  list_in_order(roots2[2],2);
+ // list_in_order(roots2[2],2);
 
     // search the tree
-      for(int main_index = 0;main_index < 4;main_index++){
+for(int main_index = 0;main_index < 1;main_index++){
         dt = cpu_time();
         for(int i = 0;i < n_persons;i++){
-          if(find(&roots2[0],1,&(persons[i])) != &(persons[i])){ // place your code here to find a given person, searching for it using the tree with number main_index
+          if(find(&roots2[0],0,&(persons[i])) != &(persons[i])){ // place your code here to find a given person, searching for it using the tree with number main_index
             return 1;
           }
           
         }
         dt = cpu_time() - dt;
-        printf("Tree search time (%d persons, index %d): %.3es\n",n_persons,main_index,dt);
-      }
+        printf("%d  %.3e\n",n_persons,dt);
+      } 
 
 
   //list_in_order(roots2[1],1); */

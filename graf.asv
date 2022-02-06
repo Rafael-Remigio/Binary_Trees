@@ -8,7 +8,7 @@ A_3 = load("1_creation.txt");
 A_4 = load("1_Search.txt");
 A_5 = load("2_creation.txt");
 A_6 = load("2_Search.txt");
-L_n = load("leaf_nodes_graf.txt");
+L_n = lead("leaf_nodes_graf.txt");
  
 n_L1 = L_n(:,1);
 f_L1 = L_n(:,2);
@@ -17,9 +17,9 @@ figure(1);
 plot(n_L1, f_L1); 
 title("Número de Folhas")
 xlabel("Número de Pessoas")
-ylabel("Media do Número de Folhas da respectiva árvore")
+ylabel("Número de Folhas da ")
 grid on  
-%%
+
  %se coluda 2==1  %coluna
 n_V1_1 = A_1(:, 1);
 f_V1_1 = A_1(:, 2); 

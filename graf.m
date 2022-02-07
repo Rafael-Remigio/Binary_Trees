@@ -1,5 +1,5 @@
 clear;
-close all;
+
 clc;
 
 A_1 = load("0_creation.txt");

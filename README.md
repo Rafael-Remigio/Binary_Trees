@@ -2,9 +2,14 @@ Algorithms and Data Structures Assignment
 
 Graded 19 out of 20
 
+
 # Binary_Trees
 
+Work carried out within Algorithms and Data Structures course.
+Implementation of different operations and searches in multidimensional binary trees as well as AVL trees.
 
-Trabalho realizado no âmbito da disciplina de Algoritmos e Estruturas de Dados. 
-Implementação de diferentes operações e pesquisas em árvores binárias multidimensionais. 
+<img src="results/plot2.png">
+
+<img src="results/plot1.png">
+
 
